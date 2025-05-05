@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator Predictor Pro</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 400px;
+            background-color: #18181b;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        .scan-btn {
+            background-color: #dc2626;
+            color: white;
+            font-weight: bold;
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            cursor: pointer;
+            border: none;
+        }
+        .history {
+            margin-top: 1.5rem;
+            color: #a1a1aa;
+        }
+        .history-list {
+            color: #86efac;
+            list-style: none;
+            padding-left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Aviator Predictor Pro</h1>
+        <p>Connected to game server | Status: <span style="color: #4ade80;">Synced</span></p>
+        <div id="result-message">
+            <p style="color: #a1a1aa;">Press start to scan the next safe multiplier.</p>
+        </div>
+        <button class="scan-btn" onclick="startScan()">Start Scan</button>
+        <div class="history">
+            <h2>Prediction History</h2>
+            <ul id="history-list" class="history-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        function getRandomMultiplier() {
+            return (Math.random() * 4 + 1).toFixed(2);
+        }
+
+        function startScan() {
+            const button = document.querySelector('.scan-btn');
+            const resultMessage = document.getElementById('result-message');
+            button.disabled = true;
+            resultMessage.innerHTML = '<p>Scanning for next multiplier...</p>';
+
+            setTimeout(() => {
+                const nextMultiplier = getRandomMultiplier();
+                resultMessage.innerHTML = `<p style="color: #4ade80; font-weight: 600;">Next Safe Cashout: <span style="font-size: 2rem; color: #22c55e;">${nextMultiplier}x</span></p>`;
+                addToHistory(nextMultiplier);
+                button.disabled = false;
+            }, 3000);
+        }
+
+        function addToHistory(multiplier) {
+            const historyList = document.getElementById('history-list');
+            const newItem = document.createElement('li');
+            newItem.textContent = `• ${multiplier}x`;
+            historyList.prepend(newItem);
+            if (historyList.children.length > 5) {
+                historyList.removeChild(historyList.lastChild);
+            }
+        }
+    </script>
+</body>
+</html>
